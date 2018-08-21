@@ -1,0 +1,10 @@
+.idea
+.project
+.buildpath
+.settings/
+.svn/
+.DS_Store
+sftp-config.json
+
+### Phalcon template
+/config/development/

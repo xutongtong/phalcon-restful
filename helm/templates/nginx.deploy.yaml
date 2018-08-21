@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: goods-nginx
+  name: goods-nginx
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: goods-nginx
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        run: goods-nginx
+    spec:
+      containers:
+      - name: goods-nginx
+        image: registry.cn-hangzhou.aliyuncs.com/hb/baobaobooks-nginx:goods
+        #imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: aliregistrykey

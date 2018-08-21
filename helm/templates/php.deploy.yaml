@@ -1,0 +1,41 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: goods
+  name: goods
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: goods
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        run: goods
+    spec:
+      {{- if .Values.nodeSelector }}
+      nodeSelector:
+        kubernetes.io/hostname: node01
+      {{- end }}
+      imagePullSecrets:
+      - name: aliregistrykey
+      containers:
+      - name: goods
+        image: registry.cn-hangzhou.aliyuncs.com/hb/goods:{{ .Values.image.tag }}
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 9000
+        env:
+        - name: ENV
+          value: {{ .Values.ENV }}
+        {{- if .Values.isDev }}
+        volumeMounts:
+        - mountPath: /var/www/html
+          name: mount
+      volumes:
+      - name: mount
+        hostPath:
+          path: {{ .Values.mountPath }}
+      {{- end }}
