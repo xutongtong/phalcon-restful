@@ -126,51 +126,6 @@ class Utils
     }
 
     /**
-     * 将请求参数字符串替换成数组形式返回
-     *
-     * @param string $data 请求参数字符串
-     *
-     * @return array    以请求参数键值对的形式返回
-     */
-    public static function parseQueryString($data)
-    {
-        $data = preg_replace_callback('/(?:^|(?<=&))[^=[]+/', function ($match) {
-            return bin2hex(urldecode($match[0]));
-        }, $data);
-        parse_str($data, $values);
-        return array_combine(array_map('hex2bin', array_keys($values)), $values);
-    }
-
-    /**
-     * 格式化金钱
-     * @param float $price
-     * @param string $format
-     * @param string $type
-     * @return string
-     */
-    public static function formatPrice($price, $format = "2", $type = 'zh')
-    {
-        $moneyCode = "￥";
-
-        switch ($type) {
-            case "zh":
-                $moneyCode = "￥";
-                break;
-            case "us":
-                $moneyCode = "$";
-                break;
-            case "en":
-                $moneyCode = "￡";
-                break;
-            default:
-                $moneyCode = "￥";
-                break;
-        }
-
-        return $moneyCode . sprintf("%.{$format}f", (float) $price);
-    }
-
-    /**
      * 输出日志到PHP日志文件
      * @param mixed $message 错误说明 数组或字符串
      * @return bool
@@ -232,46 +187,5 @@ class Utils
         $project = $di->get('config')->oss->logProject; // 创建的项目名称
         $client->putLogs(new Aliyun_Log_Models_PutLogsRequest($project, $logstore, $topic, null, $logitems));
         return true;
-    }
-
-    /**
-     * 替换html内容中的img标签实现懒加载
-     *
-     * @param   string $htmlConent html内容
-     * @return    string    添加了懒加载后的html内容
-     */
-    public static function addImgLazyload(&$htmlConent)
-    {
-        $di = \Phalcon\DI::getDefault();
-        $config = $di->get('config');
-        $placeholder = $config->lazyloadImg->rectangle;
-        //正则表达式,非贪婪模式
-        $patterns = '/<img(.*)src\s*="(.*)"(.*)\/>/U';
-        return preg_replace_callback($patterns, function ($matches) use ($placeholder) {
-            return '<img class="lazy" data-original="' . $matches[2] . '" src="' . $placeholder . '"' . $matches[1] . $matches[3] . '/>';
-        }, $htmlConent);
-    }
-
-    //截取描述
-    public static function formatDesc($desc)
-    {
-        $desc = str_replace(["\r\n", "\r", "\n"], '', $desc);
-        $desc = str_replace('\s+', '', $desc);
-        $desc = mb_substr($desc, 0, 80);
-
-        return $desc;
-    }
-
-    //截取商品描述
-    public static function formatGoodsDesc($desc, $goodsDesc = '')
-    {
-        if (empty($desc)) {
-            $goodsDesc = preg_replace('/<script.*?>.*?<\/script.*?>/si', '', $goodsDesc); // 过滤script标签
-            $desc = strip_tags($goodsDesc);
-        }
-        $desc = str_replace(["\r\n", "\r", "\n"], '', $desc);
-        $desc = str_replace('\s+', '', $desc);
-        $desc = mb_substr($desc, 0, 80);
-        return $desc;
     }
 }

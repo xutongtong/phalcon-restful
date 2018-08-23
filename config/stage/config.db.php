@@ -7,7 +7,7 @@ return new \Phalcon\Config([
         'port' => 30000,
         'username' => 'root',
         'password' => 'baobaobooks',
-        'dbname' => 'goods',
+        'dbname' => 'baobaobooks',
         'charset' => 'utf8mb4',
         'persistent' => false,
         'options' => [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]

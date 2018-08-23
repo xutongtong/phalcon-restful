@@ -7,7 +7,7 @@ return new \Phalcon\Config([
         'port' => 30004,
         'username' => 'root',
         'password' => 'baobaobooks',
-        'dbname' => 'goods',
+        'dbname' => 'baobaobooks',
         'charset' => 'utf8mb4',
         'persistent' => false,
         'options' => [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
@@ -16,7 +16,7 @@ return new \Phalcon\Config([
     'redis' => [
         'host' => '192.168.10.220',
         'port' => 30001,
-        'index' => 0,
+        'index' => 1,
         'persistent' => true,
         'auth' => '',
     ],
