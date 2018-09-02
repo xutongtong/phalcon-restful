@@ -26,12 +26,12 @@ try {
     /**
      * Include Services
      */
-    include APP_PATH . '/config/services.php';
+    include APP_PATH . '/services.php';
 
     /**
      * Include Autoloader
      */
-    include APP_PATH . '/config/loader.php';
+    include APP_PATH . '/loader.php';
 
     /**
      * Starting the application
